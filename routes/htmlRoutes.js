@@ -1,27 +1,27 @@
-const app = require("express").Router();
+const router = require("express").Router();
 const fs = require('fs');
 const path = require('path');
 
 const { v4: uuid } = require('uuid');
-const db = require("../db/db.json");
+let db = require("../db/db.json");
 
 
 
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "../public/index.html"))
+router.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "./public/index.html"))
 });
 
-app.get("/notes", (req, res) => {
-    res.sendFile(path.join(__dirname, "../public/notes.html"))
+router.get("/notes", (req, res) => {
+    res.sendFile(path.join(__dirname, "./public/notes.html"))
 });
 
 //api route for notes
-app.get("/notes", (req, res) => {
-    Notes=JSON.parse(fs.readFileSync('./db/db.json','UTF8'))
-    res.json(Notes)
+router.get("/notes", (req, res) => {
+    db=JSON.parse(fs.readFileSync('./db/db.json','UTF8'))
+    res.json(db)
 });
 
-app.post("/notes", (req, res) => {
+router.post("/notes", (req, res) => {
     let newNote = {
         title: req.body.title,
         text: req.body.text,
@@ -34,7 +34,7 @@ app.post("/notes", (req, res) => {
     res.json(db)
 });
 
-app.delete("/notes/:id", (req, res) => {
+router.delete("/notes/:id", (req, res) => {
     let id = req.params.id;
     for(i = 0; i < db.length; i++) {
         if (db[i].id === id) {
@@ -50,4 +50,4 @@ app.delete("/notes/:id", (req, res) => {
     
 })
 
-module.exports = app;
+module.exports = router;
