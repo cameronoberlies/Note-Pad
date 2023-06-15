@@ -3,14 +3,13 @@ const path = require("path");
 const fs = require("fs");
 const PORT = process.env.PORT || 3001;
 
-const db = require("./db/db.json");
-const routes = require("./routes/index");
+
+const routes = require("./routes/htmlRoutes");
 
 const app = express();
-const uuid = require('./helpers/uuid');
 
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static('public'));
 app.use('/api', routes);
 app.use('/', routes);
